@@ -14,22 +14,27 @@ datasource db {
 }
 
 model User {
-  id        Int          @id @default(autoincrement())
+  id        String       @id @default(uuid())
+  username  String       @unique
   email     String       @unique
   password  String
   transactions Transaction[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+
+  @@map("user")
 }
 
 model Transaction {
-  id          Int      @id @default(autoincrement())
-  type        String   // "income" or "expense"
+  id          String      @id @default(uuid())
+  type        String      // "income" or "expense"
   amount      Float
   description String?
   date        DateTime
-  userId      Int
+  userId      String
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
+  @@map("transaction")
 }
