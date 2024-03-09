@@ -2,18 +2,18 @@ const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 
 //utils
-const handleValidation = require('../utils/handleValidation.js');
+const { userValidation } = require('../utils/handleValidation.js');
 const { generateToken } = require('../utils/handleJWT.js');
-const prismaClient = require('../utils/prismaClient.js');
+const prisma = require('../utils/prismaClient.js');
 
 // @desc     User Signup 
 // route     POST /api/auth/signup
 // @access   Public
-const signup = async (req, res, next) => {
+const signup = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        const validationRes = handleValidation(username, email, password, "signup");
+        const validationRes = userValidation(username, email, password, "signup");
         if (!validationRes.valid) {
             return res.status(400).json({
                 ok: false,
@@ -88,11 +88,11 @@ const signup = async (req, res, next) => {
 // @desc     User Login 
 // route     POST /api/auth/login
 // @access   Public
-const login = async (req, res, next) => {
+const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const validationRes = handleValidation(username, "", password, "login");
+        const validationRes = userValidation(username, "", password, "login");
         if (!validationRes.valid) {
             return res.status(400).json({
                 ok: false,

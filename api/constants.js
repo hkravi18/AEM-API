@@ -1,4 +1,4 @@
-const DB_NAME = "aem";
+const DB_NAME = "AEM";
 
 module.exports = {
     DB_NAME

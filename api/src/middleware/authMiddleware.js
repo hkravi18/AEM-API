@@ -1,7 +1,8 @@
 //utils
-const { verifyToken } = require("../utils/handleJWT");
+const prisma = require('../utils/prismaClient');
+const { verifyToken } = require('../utils/handleJWT');
 
-const requireAuth = async(req, res, next) => {
+const authMiddleware = async(req, res, next) => {
     const { authorization } = req.headers;
     
     if (!authorization) {
@@ -21,6 +22,15 @@ const requireAuth = async(req, res, next) => {
             }
         });
         req.recievedToken = token;
+
+        if (!req.user) {
+            return res.status(404).json({
+                ok: false, 
+                error: "User does not exist",
+                data: {}
+            });
+        }
+
         next();
     } catch (err) {
         return res.status(401).json({
@@ -31,4 +41,4 @@ const requireAuth = async(req, res, next) => {
     }
 };
 
-module.exports = requireAuth;
+module.exports = authMiddleware;

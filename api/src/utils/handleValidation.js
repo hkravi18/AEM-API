@@ -1,4 +1,4 @@
-const handleValidation = (username, email, password, act) => {
+const userValidation = (username, email, password, act) => {
     if ((!email || !password) || (act === "signup" && !username)) {
         return {
             valid: false,
@@ -22,8 +22,28 @@ const handleValidation = (username, email, password, act) => {
 
     return {
         valid: true,
-        meesage: "All fields are correctly filled" 
+        message: "All fields filled correctly" 
     };
 };
 
-module.exports = handleValidation;
+const transactionValidation = ({ type, amount }) => {
+    if (!type) return { valid: false, error: "type is needed for the transaction" };
+    if (!amount) return { valid: false, error: "amount is needed for the transaction" };
+
+    if (type !== "INCOME" && type !== "EXPENSE") {
+        return {
+            valid: false,
+            error: "type can only be either INCOME or EXPENSE"
+        };
+    };
+
+    return {
+        valid: true,
+        message: "All fields filled correctly" 
+    };
+};
+
+module.exports = {
+    userValidation,
+    transactionValidation
+};    
