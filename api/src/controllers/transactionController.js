@@ -95,17 +95,16 @@ const getTransactionsSummary = async(req, res) => {
 // @access  Private (Admin) 
 const addTransaction = async(req, res) => {
     try {
-        const isValid = transactionValidation({ type: req.body?.type, amount: req.body?.amount });
-        if (!isValid.ok) {
-            return res.status().json({
+        const validationRes = transactionValidation({ type: req.body?.type, amount: req.body?.amount });
+        if (validationRes.valid === false) {
+            return res.status(400).json({
                 ok: false,
                 error: isValid.error,
                 data: {}  
             });
         }
 
-        const userId = req.user?.userId;
-
+        const userId = req.user?.id;
         const createdTransaction = await prisma.transaction.create({
             data: {
                 id: uuidv4(),
@@ -113,6 +112,7 @@ const addTransaction = async(req, res) => {
                 amount: req.body?.amount,
                 description: req.body?.description,
                 userId: userId,
+                user: req.user,
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
@@ -136,7 +136,7 @@ const addTransaction = async(req, res) => {
         }
         
     } catch (err) {
-        console.error(`ERROR (get-transactions-list): ${err.message}`);
+        console.error(`ERROR (create-transaction): ${err.message}`);
         return res.status(500).json({
             ok: false,
             error: `Error in creating transaction`,

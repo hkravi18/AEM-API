@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 //controllers
-const { getTransactionsList, getTransactionsSummary, addTransaction } = require('../controllers/transactionController.js');
+const { getTransactionsList, getTransactionsSummary, addTransaction, deleteTransaction } = require('../controllers/transactionController.js');
 
 //middleware
 const authMiddleware = require('../middleware/authMiddleware.js');

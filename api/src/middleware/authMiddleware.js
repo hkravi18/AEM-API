@@ -15,7 +15,16 @@ const authMiddleware = async(req, res, next) => {
     
     const token = authorization.split(' ')[1];
     try { 
-        const { email } = verifyToken(token);
+        const data = verifyToken(token);
+        if (!data) {
+            return res.status(401).json({
+                ok: false, 
+                error: "Request is not authorized",
+                data: {}
+            });
+        }
+        
+        const { email } = data;
         req.user = await prisma.user.findUnique({
             where: {
                 email
@@ -33,6 +42,7 @@ const authMiddleware = async(req, res, next) => {
 
         next();
     } catch (err) {
+        console.log(`ERROR (auth-middleware): ${err.message}`);
         return res.status(401).json({
             ok: false, 
             error: "Request is not authorized",

@@ -92,7 +92,7 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const validationRes = userValidation(username, "", password, "login");
+        const validationRes = userValidation("", email, password, "login");
         if (!validationRes.valid) {
             return res.status(400).json({
                 ok: false,
