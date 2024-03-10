@@ -112,9 +112,6 @@ const addTransaction = async(req, res) => {
                 amount: req.body?.amount,
                 description: req.body?.description,
                 userId: userId,
-                user: req.user,
-                createdAt: new Date(),
-                updatedAt: new Date()
             },
         });
 
@@ -164,7 +161,7 @@ const deleteTransaction = async(req, res) => {
         if (deletedTransaction) {
             return res.status(200).json({
                 ok: true,
-                message: 'Transactions fetched successfully',
+                message: 'Transactions deleted successfully',
                 data: {
                     deletedTransaction
                 }
