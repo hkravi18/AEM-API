@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest"
+    "test": "jest",
+    "checkFormat": "prettier --check .",
+    "format": "prettier --write .",
+    "prepare": "cd .. && husky api/.husky"
   },
   "keywords": [
     "Finance"
@@ -23,8 +26,13 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.11",
     "jest": "^29.7.0",
+    "lint-staged": "^15.2.2",
     "nodemon": "^3.1.0",
+    "prettier": "3.2.5",
     "prisma": "^5.10.2"
   }
 }
