@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 
 //utils 
 const { transactionValidation } = require('../utils/handleValidation.js');
+const CustomError = require('../utils/customError.js');
 
 // @desc    Get Transaction List
 // route    GET /api/transactions/list
@@ -30,12 +31,8 @@ const getTransactionsList = async(req, res) => {
             }
         });
     } catch (err) {
-        console.error(`ERROR (get-transactions-list): ${err.message}`);
-        return res.status(500).json({
-            ok: false,
-            error: `Error in fetching transactions list`,
-            data: {}
-        })
+        const error = new CustomError(err.message, 500, "get-transactions-list");
+        next(error);
     }    
 }; 
 
@@ -81,12 +78,8 @@ const getTransactionsSummary = async(req, res) => {
             }
         });
     } catch (err) {
-        console.error(`ERROR (get-transactions-summary): ${err.message}`);
-        return res.status(500).json({
-            ok: false,
-            error: `Error in fetching transactions summary`,
-            data: {}
-        })
+        const error = new CustomError(err.message, 500, "get-transactions-summary");
+        next(error);
     }    
 }; 
 
@@ -97,6 +90,8 @@ const addTransaction = async(req, res) => {
     try {
         const validationRes = transactionValidation({ type: req.body?.type, amount: req.body?.amount });
         if (validationRes.valid === false) {
+            const error = new CustomError(isValid.error, 500, "create-transaction");
+            next(error);
             return res.status(400).json({
                 ok: false,
                 error: isValid.error,
@@ -133,12 +128,8 @@ const addTransaction = async(req, res) => {
         }
         
     } catch (err) {
-        console.error(`ERROR (create-transaction): ${err.message}`);
-        return res.status(500).json({
-            ok: false,
-            error: `Error in creating transaction`,
-            data: {}
-        })
+        const error = new CustomError(err.message, 500, "create-transaction");
+        next(error);
     }    
 }; 
 
@@ -167,20 +158,12 @@ const deleteTransaction = async(req, res) => {
                 }
             });
         } else {
-            console.error(`ERROR (delete-transaction): ${err.message}`);
-            return res.status(500).json({
-                ok: false,
-                error: `Error in delete transaction`,
-                data: {}
-            })
+            const error = new CustomError(err.message, 500, "delete-transaction");
+            next(error);
         }    
     } catch (err) {
-        console.error(`ERROR (delete-transaction): ${err.message}`);
-        return res.status(500).json({
-            ok: false,
-            error: `Error in delete transaction`,
-            data: {}
-        })
+        const error = new CustomError(err.message, 500, "delete-transaction");
+        next(error);
     }    
 }; 
 

@@ -6,20 +6,20 @@ const { userValidation } = require('../utils/handleValidation.js');
 const { generateToken } = require('../utils/handleJWT.js');
 const prisma = require('../utils/prismaClient.js');
 
+//middleware
+const CustomError = require('../middleware/errorHandler.js');
+
 // @desc     User Signup 
 // route     POST /api/auth/signup
 // @access   Public
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
 
         const validationRes = userValidation(username, email, password, "signup");
         if (!validationRes.valid) {
-            return res.status(400).json({
-                ok: false,
-                error: validationRes.error,
-                data: {}
-            });
+            const error = new CustomError(validationRes.error, 400, "signup");
+            next(error);
         }
 
         const userAlreadyExists = await prisma.user.findUnique({ 
@@ -29,11 +29,8 @@ const signup = async (req, res) => {
         });
 
         if (userAlreadyExists) {
-            return res.status(500).json({
-                ok: false,
-                error: "User already exists. Please Login",
-                data: {}
-            })
+            const error = new CustomError("User already exists.", 400, "signup");
+            next(error);
         }
 
         //hashing the password
@@ -67,21 +64,14 @@ const signup = async (req, res) => {
                     }
                 }
             });
-        } else {
-            return res.status(500).json({
-                ok: false,
-                error: "User Registration failed, Please try again.",
-                data: {}
-            })
-        }
+        } 
+        
+        const error = new CustomError("User Registration failed.", 400, "signup");
+        next(error);
+    
     } catch (err) {
-        console.error(`ERROR (signup): ${err.message}`);
-
-        return res.status(500).json({
-            ok: false,
-            error: "User Registration failed, Please try again later.",
-            data: {}
-        })
+        const error = new CustomError(err.message, 500, "signup");
+        next(error);
     }
 };
 
@@ -94,11 +84,8 @@ const login = async (req, res) => {
 
         const validationRes = userValidation("", email, password, "login");
         if (!validationRes.valid) {
-            return res.status(400).json({
-                ok: false,
-                error: validationRes.error,
-                data: {}
-            });
+            const error = new CustomError(validationRes.error, 400, "login");
+            next(error);
         }
 
         const user = await prisma.user.findUnique({
@@ -108,21 +95,15 @@ const login = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(404).json({
-                ok: false,
-                error: "Incorrect email or password",
-                data: {}
-            });
+            const err = new CustomError("Incorrect email or password", 400, "login");
+            next(err);
         }
 
         const checkPassword = await bcrypt.compare(password, user.password);
 
         if (!checkPassword) {
-            return res.status(401).json({
-                ok: false,
-                error: "Incorrect email or password",
-                data: {}
-            });
+            const error = new CustomError("Incorrect email or password", 401, "login");
+            next(error);
         };
 
         const token = generateToken({
@@ -141,13 +122,8 @@ const login = async (req, res) => {
             }
         });
     } catch (err) {
-        console.error(`ERROR (login): ${err.message}`);
-
-        return res.status(500).json({
-            ok: false,
-            error: "User Logged In failed. Please try again.",
-            data: {}
-        });
+        const error = new CustomError(err.message, 500, "login");
+        next(error);
     }
 };
 
