@@ -9,7 +9,7 @@
     "test": "jest",
     "checkFormat": "prettier --check .",
     "format": "prettier --write .",
-    "prepare": "cd .. && husky api/.husky"
+    "prepare": "cd .. && husky install api/.husky"
   },
   "keywords": [
     "Finance"
