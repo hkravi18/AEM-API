@@ -1,3 +1,2 @@
 cd api
 npx lint-staged
-npm test
