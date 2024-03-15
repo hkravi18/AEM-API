@@ -8,8 +8,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // TODO: Change this to the whitelisted origins (before deploying)
-
-console.log("Starting");
 app.use(
   cors({
     origin: "*",

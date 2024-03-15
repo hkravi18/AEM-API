@@ -93,13 +93,12 @@ const addTransaction = async (req, res) => {
       amount: req.body?.amount,
     });
     if (validationRes.valid === false) {
-      const error = new CustomError(isValid.error, 500, "create-transaction");
+      const error = new CustomError(
+        validationRes.error,
+        500,
+        "create-transaction"
+      );
       next(error);
-      return res.status(400).json({
-        ok: false,
-        error: isValid.error,
-        data: {},
-      });
     }
 
     const userId = req.user?.id;
@@ -122,12 +121,12 @@ const addTransaction = async (req, res) => {
         },
       });
     } else {
-      console.error(`ERROR (create-transaction): ${err.message}`);
-      return res.status(500).json({
-        ok: false,
-        error: "Error in creating transaction",
-        data: {},
-      });
+      const error = new CustomError(
+        "Error in creating transaction",
+        500,
+        "create-transaction"
+      );
+      next(error);
     }
   } catch (err) {
     const error = new CustomError(err.message, 500, "create-transaction");
@@ -159,7 +158,11 @@ const deleteTransaction = async (req, res) => {
         },
       });
     } else {
-      const error = new CustomError(err.message, 500, "delete-transaction");
+      const error = new CustomError(
+        "Error in deleting transaction",
+        500,
+        "delete-transaction"
+      );
       next(error);
     }
   } catch (err) {

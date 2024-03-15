@@ -3,7 +3,7 @@ const errorHandler = (err, req, res, next) => {
   err.status = err.status || "error";
   err.message = err.message || "server error";
 
-  console.error(`ERROR (${err.source}): ${err.message}`);
+  console.error(`ERROR (${err.source} | ${err.statusCode}): ${err.message}`);
   if (process.env.NODE_ENV === "development") {
     console.error(`ERROR STACK: ${err.stack}`);
   }

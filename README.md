@@ -25,6 +25,11 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
 - User can create and get useful statistics about their personal transactions
 - Uses JWT for authentication 
 
+>*DATA SANITATION*: Since Prisma is used for this project, data sanitation is already managed by Prisma psql queries
+
+>*DATA RETRIEVAL*: UserId and CreatedAt fields are used in index which make date wise range querying transactions more more efficient
+
+
 ## Technologies Used
 
 - Express.js
@@ -120,7 +125,6 @@ Login is done with email (unique) and password
 - JWT is used to authenticate the user  
 
 
->IMP NOTE: Since Prisma is used for this project, data sanitation is already managed by Prisma psql queries
 
 ## Database
 Posgtress is used as a primary database for this project along with Prisma as an ORM.  
