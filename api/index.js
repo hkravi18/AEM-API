@@ -1,10 +1,22 @@
 require("dotenv").config();
 const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = require("./app.js");
 
 //port
 const port = process.env.PORT || 4000;
+
+//limiting the rate of incoming requests
+app.use(
+  "/api",
+  rateLimit({
+    windowMs: 5 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
 
 //middlewares
 const logger = require("./src/middleware/loggerMiddleware.js");

@@ -38,7 +38,8 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
 - Lint-staged is used for running prettier and eslint on all changed files in each commit
 - Husky is used to provide git hooks for pre-commit and pre-push
 - Helmet is used to enhance API security by setting various HTTP headers  
-
+- Dompurify is used to remove any malicious script from request body
+- Limit the size of request data and rate of incoming requests
 
 ## Technologies Used
 
@@ -84,6 +85,7 @@ FOR EXAMPLE:
 PORT=4000
 DATABASE_URL=<POSTGRESQL_DATABASE_URL>  
 SECRET_KEY=any_secret_key
+NODE_ENV=development
 ```
 
 >To setup the database locally, DATABASE_URL connection string will be like this   
