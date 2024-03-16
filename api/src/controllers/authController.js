@@ -7,7 +7,7 @@ const { generateToken } = require("../utils/handleJWT.js");
 const prisma = require("../utils/prismaClient.js");
 
 //middleware
-const CustomError = require("../middleware/errorHandler.js");
+const CustomError = require("../utils/customError.js");
 
 // @desc     User Signup
 // route     POST /api/auth/signup

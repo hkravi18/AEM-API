@@ -3,11 +3,11 @@ const prisma = require("../utils/prismaClient");
 const { verifyToken } = require("../utils/handleJWT");
 
 //utils
-const CustomError = require("../utils/CustomError");
+const CustomError = require("../utils/customError");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.cookie.token;
+    const token = req.cookies.token;
 
     if (!token) {
       const error = new CustomError("Token not found", 401, "auth-middleware");
@@ -44,11 +44,7 @@ const authMiddleware = async (req, res, next) => {
 
     next();
   } catch (err) {
-    const error = new CustomError(
-      "Request is not authorized",
-      401,
-      "auth-middleware"
-    );
+    const error = new CustomError(err.message, 401, "auth-middleware");
     next(error);
   }
 };

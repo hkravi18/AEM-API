@@ -43,6 +43,15 @@
   - Content-Type: _application/json_
   - Description: To retrieve all transactions created in a given range of time.
 
+   Example Request: 
+   ```json
+   //request url
+   http://localhost:4000/api/transactions?startDate=2024-03-10T17:00:56.789Z&endDate=2024-03-16T21:59:56.789Z
+   
+   //request body
+   {}
+   ```
+
    On successful retrieval of transactions, the server will respond with a 200 status code and a JSON object containing the transactions.
   ```javascript 
   {
@@ -77,6 +86,14 @@
   - Content-Type: _application/json_
   - Description: To retrieve statistics about transactions created in a given range of time.
 
+  Example Request: 
+   ```json
+   //request url
+   http://localhost:4000/api/transactions/summary?startDate=2024-03-10T17:00:56.789Z&endDate=2024-03-16T22:59:56.789Z
+
+   //request body 
+   {}
+   ```
   On successful retrieval of transactions summary, the server will respond with a 200 status code and a JSON object containing the stats about transactions.
   ```javascript 
   {
@@ -104,6 +121,19 @@
 - **POST /api/transactions**
   - Content-Type: _application/json_
   - Description: To create a new transaction.
+
+  Example Request: 
+   ```json
+   //request url:
+   http://localhost:4000/api/transactions
+   
+   //request body:
+   {
+    "type": "INCOME",
+    "amount": 2000,
+    "description": "PS6"
+   }
+   ```
 
   On successful creation of the transaction, the server will respond with a 200 status code and a JSON object containing the transaction.
   ```javascript 
@@ -138,6 +168,15 @@
   - Content-Type: _application/json_
   - Description: To delete a particular transaction.
     
+  Example Request: 
+   ```json
+   //request url:
+   http://localhost:4000/api/transactions
+
+   //request body: 
+   {}
+   ```
+
   On successful creation of the transaction, the server will respond with a 200 status code and a JSON object containing the transaction.
   ```javascript 
   {
