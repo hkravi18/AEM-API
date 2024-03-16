@@ -8,6 +8,7 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
 ## Table of Contents
 
 - [Features](#features)
+- [Development Features](#development-features)
 - [Technologies Used](#technologies-used)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -22,12 +23,21 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
 ## Features
 
 - User can registration and authentication securely 
-- User can create and get useful statistics about their personal transactions
+- User can create transactions 
+- User can get useful statistics about their personal transactions
 - Uses JWT for authentication 
 
->*DATA SANITATION*: Since Prisma is used for this project, data sanitation is already managed by Prisma psql queries
+>*DATA SANITATION*: Prisma is used for this project, data sanitation is already managed by Prisma psql queries
 
 >*DATA RETRIEVAL*: UserId and CreatedAt fields are used in index which make date wise range querying transactions more more efficient
+
+## Development Features
+- Custom Error handling is done for errors
+- Eslint is used for linting and for finding errors with standard rules
+- Prettier is used for code formatting
+- Lint-staged is used for running prettier and eslint on all changed files in each commit
+- Husky is used to provide git hooks for pre-commit and pre-push
+- Helmet is used to enhance API security by setting various HTTP headers  
 
 
 ## Technologies Used
