@@ -1,4 +1,6 @@
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
+
 const app = require("./app.js");
 
 //port
@@ -11,6 +13,9 @@ const errorHandler = require("./src/middleware/errorHandler.js");
 //importing routes
 const authRoutes = require("./src/routes/authRoutes.js");
 const transactionRoutes = require("./src/routes/transactionRoutes.js");
+
+//cookie-parser
+app.use(cookieParser());
 
 //logger middleware
 app.use(logger);

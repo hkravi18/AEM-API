@@ -56,6 +56,8 @@ const signup = async (req, res, next) => {
         "2h"
       );
 
+      res.cookie("token", token, { httpOnly: true, secure: true });
+
       return res.status(201).json({
         ok: true,
         message: "User registered successfully.",
@@ -63,7 +65,6 @@ const signup = async (req, res, next) => {
           user: {
             username: user.username,
             email: user.email,
-            token: token,
           },
         },
       });
@@ -119,6 +120,8 @@ const login = async (req, res) => {
       "2h"
     );
 
+    res.cookie("token", token, { httpOnly: true, secure: true });
+
     return res.status(200).json({
       ok: true,
       message: "User logged in successfully.",
@@ -126,7 +129,6 @@ const login = async (req, res) => {
         user: {
           username: user.username,
           email: user.email,
-          token: token,
         },
       },
     });
